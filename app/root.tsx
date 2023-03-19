@@ -1,4 +1,4 @@
-import type {  MetaFunction } from "@remix-run/cloudflare";
+import type {  LoaderFunction, MetaFunction } from "@remix-run/cloudflare";
 import {
   Links,
   LiveReload,
@@ -8,6 +8,13 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import { rootAuthLoader } from "@clerk/remix/ssr.server";
+import { ClerkApp } from "@clerk/remix";
+
+// Define and export your loader
+export const loader: LoaderFunction = (args) => rootAuthLoader(args);
+
+
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
   title: "New Remix App",
@@ -15,7 +22,7 @@ export const meta: MetaFunction = () => ({
 });
 
 
-export default function App() {
+function App() {
   return (
     <html lang="en">
       <head>
@@ -31,3 +38,6 @@ export default function App() {
     </html>
   );
 }
+
+
+export default ClerkApp(App)
